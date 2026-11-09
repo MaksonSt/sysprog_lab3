@@ -257,3 +257,6 @@ select, textarea, .search {
     font-size: 18px;
     pointer-events: none;
 }
+
+/* без лігатур, щоб <= і != виглядали так, як у коді */
+.code-view, .output, .tree .node text, .io-block textarea { font-variant-ligatures: none; }
