@@ -1,6 +1,7 @@
 import { useState } from "react";
 import examples from "./examples.json";
 import AstTree from "./components/AstTree.jsx";
+import JsPanel from "./components/JsPanel.jsx";
 import SourceView from "./components/SourceView.jsx";
 
 // Файл може бути пакетом з --bundle (код + AST + JS) або просто AST з --json
@@ -15,12 +16,14 @@ export default function App() {
     const [bundle, setBundle] = useState(examples[0] || null);
     const [selected, setSelected] = useState(examples.length ? "0" : "");
     const [activeLine, setActiveLine] = useState(null);
+    const [version, setVersion] = useState(0);
     const [dragging, setDragging] = useState(false);
 
     function open(next, key) {
         setBundle(next);
         setSelected(key);
         setActiveLine(null);
+        setVersion((v) => v + 1);
     }
 
     async function openFile(file) {
@@ -85,6 +88,7 @@ export default function App() {
                         activeLine={activeLine}
                         onNodeClick={(node) => node.line && setActiveLine(node.line)}
                     />
+                    <JsPanel key={version} js={bundle.js} defaultInput={bundle.stdin} />
                 </main>
             ) : (
                 <div className="empty">
