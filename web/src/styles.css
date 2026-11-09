@@ -1,0 +1,259 @@
+:root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --border: #dfe3e8;
+    --text: #1f2933;
+    --muted: #6b7785;
+    --accent: #2f6fde;
+    --line-hover: #eef3fd;
+    --line-active: #fff3c4;
+    --link: #c3cad3;
+    --error: #c62828;
+    --code-bg: #fbfbfc;
+    --found: #f5a524;
+    --mono: "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #14171c;
+        --panel: #1c2027;
+        --border: #2d333c;
+        --text: #e3e7ec;
+        --muted: #8d97a3;
+        --accent: #5b8ff0;
+        --line-hover: #232a36;
+        --line-active: #4a4220;
+        --link: #444c57;
+        --error: #ff6b6b;
+        --code-bg: #181b21;
+    }
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root { margin: 0; height: 100%; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.45 "Segoe UI", system-ui, sans-serif;
+    font-variant-ligatures: none;
+}
+
+.app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.muted { color: var(--muted); font-weight: normal; }
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* --- верхня панель --- */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-name { font-weight: 700; font-size: 18px; }
+
+.field { display: flex; align-items: center; gap: 8px; color: var(--muted); }
+
+select, textarea, .search {
+    font: inherit;
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 8px;
+}
+
+.search { width: 180px; padding: 3px 8px; font-size: 13px; }
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    font: inherit;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.button:disabled { opacity: 0.5; cursor: default; }
+.button.secondary, .button.small { background: transparent; color: var(--accent); }
+.button.small { padding: 2px 8px; font-size: 13px; border-color: var(--border); color: var(--text); }
+.button.small:hover { border-color: var(--accent); }
+
+/* --- три панелі --- */
+
+.layout {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) minmax(380px, 2fr) minmax(300px, 1.2fr);
+    gap: 12px;
+    padding: 12px;
+}
+
+@media (max-width: 1100px) {
+    .layout { grid-template-columns: 1fr; grid-auto-rows: minmax(420px, auto); }
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.panel-head h2 { margin: 0; font-size: 15px; }
+
+.empty { padding: 24px; color: var(--muted); }
+
+/* --- код --- */
+
+.code-view {
+    flex: 1;
+    margin: 0;
+    overflow: auto;
+    background: var(--code-bg);
+    font: 13px/1.5 var(--mono);
+    white-space: pre;
+}
+
+.line { display: flex; cursor: pointer; padding-right: 12px; }
+.line:hover { background: var(--line-hover); }
+.line.active { background: var(--line-active); }
+
+.line-number {
+    flex: none;
+    width: 3em;
+    padding-right: 12px;
+    text-align: right;
+    color: var(--muted);
+    user-select: none;
+}
+
+.js-view { padding: 8px 12px; }
+
+/* --- дерево --- */
+
+.tree-wrap { position: relative; flex: 1; min-height: 0; }
+
+.tree { width: 100%; height: 100%; display: block; cursor: grab; }
+.tree:active { cursor: grabbing; }
+
+.tree .link { fill: none; stroke: var(--link); stroke-width: 1.5px; }
+.tree .node { cursor: pointer; }
+.tree .node circle { stroke-width: 2px; }
+.tree .node text { font: 13px var(--mono); fill: var(--text); paint-order: stroke; stroke: var(--panel); stroke-width: 3px; }
+.tree .node .kind { font-weight: 600; }
+.tree .node .hidden-count { fill: var(--muted); font-size: 12px; }
+.tree .node.active circle { r: 8; stroke-width: 3px; }
+.tree .node.active text { text-decoration: underline; }
+.tree .node.found circle { stroke: var(--found) !important; stroke-width: 4px; }
+.tree .node.found .label { fill: var(--found); }
+
+.tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: var(--text);
+    color: var(--panel);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.tree-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 6px 12px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+}
+
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.legend-item { display: inline-flex; align-items: center; gap: 5px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+/* --- запуск JS --- */
+
+.toggle { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: 13px; }
+
+.io {
+    display: grid;
+    gap: 8px;
+    padding: 8px 12px 12px;
+    border-top: 1px solid var(--border);
+}
+
+.io-block { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.io-block textarea { font: 13px var(--mono); resize: vertical; }
+
+.output {
+    margin: 0;
+    min-height: 80px;
+    max-height: 200px;
+    overflow: auto;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--code-bg);
+    color: var(--text);
+    font: 13px/1.45 var(--mono);
+    white-space: pre-wrap;
+}
+
+.output .error { color: var(--error); }
+.output .status { color: var(--muted); }
+
+/* --- перетягування файлу --- */
+
+.drop-hint {
+    position: absolute;
+    inset: 8px;
+    display: grid;
+    place-items: center;
+    border: 3px dashed var(--accent);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    font-size: 18px;
+    pointer-events: none;
+}

@@ -22,6 +22,10 @@ $(BUILD)/lexer.cpp: src/lexer.l $(BUILD)/parser.tab.hpp | $(BUILD)
 $(TARGET): $(GEN) $(SRCS) $(HDRS)
 	$(CXX) $(CXXFLAGS) -o $@ $(GEN) $(SRCS) $(LDFLAGS)
 
+# приклади для веб-візуалізації (web/src/examples.json)
+web: $(TARGET)
+	node web/scripts/build-examples.mjs
+
 test: $(TARGET)
 	bash tests/run_tests.sh
 
@@ -33,4 +37,4 @@ conflict-demo: | $(BUILD)
 clean:
 	rm -rf $(BUILD) $(TARGET)
 
-.PHONY: all clean conflict-demo test
+.PHONY: all clean conflict-demo web test
