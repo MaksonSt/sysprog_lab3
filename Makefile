@@ -22,6 +22,9 @@ $(BUILD)/lexer.cpp: src/lexer.l $(BUILD)/parser.tab.hpp | $(BUILD)
 $(TARGET): $(GEN) $(SRCS) $(HDRS)
 	$(CXX) $(CXXFLAGS) -o $@ $(GEN) $(SRCS) $(LDFLAGS)
 
+test: $(TARGET)
+	bash tests/run_tests.sh
+
 # показати shift/reduce конфлікт dangling else без %prec
 conflict-demo: | $(BUILD)
 	sed -e 's/%prec LOWER_THAN_ELSE//' -e 's/^%expect 0//' src/parser.y > $(BUILD)/conflict_demo.y
@@ -30,4 +33,4 @@ conflict-demo: | $(BUILD)
 clean:
 	rm -rf $(BUILD) $(TARGET)
 
-.PHONY: all clean conflict-demo
+.PHONY: all clean conflict-demo test
