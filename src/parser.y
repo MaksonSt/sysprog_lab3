@@ -45,6 +45,7 @@ static Node* incdec(const char* op, std::string* name, bool prefix, int line) {
 %define parse.error verbose
 %token-table
 %locations
+%expect 0
 
 %union {
     int          ival;
@@ -86,6 +87,9 @@ static Node* incdec(const char* op, std::string* name, bool prefix, int line) {
 %left  '+' '-'
 %left  '*' '/' '%'
 %right '!' UMINUS
+
+%nonassoc LOWER_THAN_ELSE
+%nonassoc KW_ELSE
 
 %start program
 
@@ -184,7 +188,7 @@ stmt
     ;
 
 if_stmt
-    : KW_IF '(' expr ')' stmt
+    : KW_IF '(' expr ')' stmt                %prec LOWER_THAN_ELSE
         { $$ = makeNode(NodeKind::If, @1.first_line)->add($3)->add($5); }
     | KW_IF '(' expr ')' stmt KW_ELSE stmt
         { $$ = makeNode(NodeKind::If, @1.first_line)->add($3)->add($5)->add($7); }
