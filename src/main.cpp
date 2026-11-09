@@ -6,6 +6,7 @@
 
 #include "ast.hpp"
 #include "parser.tab.hpp"
+#include "semantic.hpp"
 
 #ifdef _WIN32
 #include <windows.h>
@@ -107,6 +108,12 @@ int main(int argc, char** argv) {
     }
     if (!jsonPath.empty() && !writeFile(jsonPath, toJson(astRoot) + "\n", "AST"))
         return 1;
+
+    int semanticErrors = checkSemantics(astRoot);
+    if (semanticErrors > 0) {
+        fprintf(stderr, "Знайдено семантичних помилок: %d\n", semanticErrors);
+        return 1;
+    }
 
     if (!showAst && jsonPath.empty())
         printf("Аналіз успішний: помилок не знайдено.\n");
