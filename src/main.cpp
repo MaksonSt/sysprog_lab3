@@ -5,6 +5,7 @@
 #include <string>
 
 #include "ast.hpp"
+#include "interpreter.hpp"
 #include "parser.tab.hpp"
 #include "semantic.hpp"
 
@@ -58,7 +59,9 @@ static int usage() {
         "Використання: minicpp <файл.cpp> [опції]\n"
         "  --tokens        показати токени\n"
         "  --ast           показати дерево AST\n"
-        "  --json <файл>   зберегти AST у JSON\n");    return 1;
+        "  --json <файл>   зберегти AST у JSON\n"
+        "  --run           виконати програму\n");
+    return 1;
 }
 
 int main(int argc, char** argv) {
@@ -68,7 +71,7 @@ int main(int argc, char** argv) {
 #endif
     if (argc < 2) return usage();
 
-    bool showTokens = false, showAst = false;
+    bool showTokens = false, showAst = false, run = false;
     std::string jsonPath;
 
     for (int i = 2; i < argc; ++i) {
@@ -76,6 +79,7 @@ int main(int argc, char** argv) {
         bool hasValue = i + 1 < argc;
         if (arg == "--tokens") showTokens = true;
         else if (arg == "--ast") showAst = true;
+        else if (arg == "--run") run = true;
         else if (arg == "--json" && hasValue) jsonPath = argv[++i];
         else {
             fprintf(stderr, "Невідома опція: %s\n", argv[i]);
@@ -115,9 +119,12 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    if (!showAst && jsonPath.empty())
+    int exitCode = 0;
+    if (run)
+        exitCode = runProgram(astRoot);
+    else if (!showAst && jsonPath.empty())
         printf("Аналіз успішний: помилок не знайдено.\n");
 
     delete astRoot;
-    return 0;
+    return exitCode;
 }
