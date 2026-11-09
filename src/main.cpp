@@ -5,6 +5,7 @@
 #include <string>
 
 #include "ast.hpp"
+#include "codegen_js.hpp"
 #include "interpreter.hpp"
 #include "parser.tab.hpp"
 #include "semantic.hpp"
@@ -43,6 +44,15 @@ static void printTokens() {
     printf("Усього токенів: %d\n", count);
 }
 
+static std::string readFile(const char* path) {
+    std::ifstream f(path, std::ios::binary);
+    std::string text, clean;
+    text.assign(std::istreambuf_iterator<char>(f), std::istreambuf_iterator<char>());
+    for (char c : text)
+        if (c != '\r') clean += c;
+    return clean;
+}
+
 static bool writeFile(const std::string& path, const std::string& text, const char* what) {
     std::ofstream f(path, std::ios::binary);
     if (!f) {
@@ -54,12 +64,22 @@ static bool writeFile(const std::string& path, const std::string& text, const ch
     return true;
 }
 
+static std::string bundleJson(const std::string& path) {
+    std::string name = path.substr(path.find_last_of("/\\") + 1);
+    return "{\"name\":\"" + escapeJson(name) + "\"" +
+           ",\"source\":\"" + escapeJson(readFile(path.c_str())) + "\"" +
+           ",\"ast\":" + toJson(astRoot) +
+           ",\"js\":\"" + escapeJson(generateJs(astRoot)) + "\"}\n";
+}
+
 static int usage() {
     fprintf(stderr,
         "Використання: minicpp <файл.cpp> [опції]\n"
         "  --tokens        показати токени\n"
         "  --ast           показати дерево AST\n"
         "  --json <файл>   зберегти AST у JSON\n"
+        "  --js <файл>     перекласти програму на JavaScript\n"
+        "  --bundle <файл> зберегти код, AST і JS в один JSON для веб-візуалізації\n"
         "  --run           виконати програму\n");
     return 1;
 }
@@ -72,7 +92,7 @@ int main(int argc, char** argv) {
     if (argc < 2) return usage();
 
     bool showTokens = false, showAst = false, run = false;
-    std::string jsonPath;
+    std::string jsonPath, jsPath, bundlePath;
 
     for (int i = 2; i < argc; ++i) {
         std::string arg = argv[i];
@@ -81,6 +101,8 @@ int main(int argc, char** argv) {
         else if (arg == "--ast") showAst = true;
         else if (arg == "--run") run = true;
         else if (arg == "--json" && hasValue) jsonPath = argv[++i];
+        else if (arg == "--js" && hasValue) jsPath = argv[++i];
+        else if (arg == "--bundle" && hasValue) bundlePath = argv[++i];
         else {
             fprintf(stderr, "Невідома опція: %s\n", argv[i]);
             return usage();
@@ -119,10 +141,15 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    if (!jsPath.empty() && !writeFile(jsPath, generateJs(astRoot), "JavaScript"))
+        return 1;
+    if (!bundlePath.empty() && !writeFile(bundlePath, bundleJson(argv[1]), "Пакет для візуалізації"))
+        return 1;
+
     int exitCode = 0;
     if (run)
         exitCode = runProgram(astRoot);
-    else if (!showAst && jsonPath.empty())
+    else if (!showAst && jsonPath.empty() && jsPath.empty() && bundlePath.empty())
         printf("Аналіз успішний: помилок не знайдено.\n");
 
     delete astRoot;
