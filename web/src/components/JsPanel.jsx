@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { runJs, TIMEOUT_SECONDS } from "../runner.js";
 
-// Згенерований файл починається з бібліотеки $rt, яка закінчується цим рядком
 const RUNTIME_END = "})();\n";
 
 function splitRuntime(js) {

@@ -57,7 +57,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* --- верхня панель --- */
 
 .topbar {
     display: flex;
@@ -104,7 +103,6 @@ select, textarea, .search {
 .button.small { padding: 2px 8px; font-size: 13px; border-color: var(--border); color: var(--text); }
 .button.small:hover { border-color: var(--accent); }
 
-/* --- три панелі --- */
 
 .layout {
     flex: 1;
@@ -143,7 +141,6 @@ select, textarea, .search {
 
 .empty { padding: 24px; color: var(--muted); }
 
-/* --- код --- */
 
 .code-view {
     flex: 1;
@@ -169,7 +166,6 @@ select, textarea, .search {
 
 .js-view { padding: 8px 12px; }
 
-/* --- дерево --- */
 
 .tree-wrap { position: relative; flex: 1; min-height: 0; }
 
@@ -213,7 +209,6 @@ select, textarea, .search {
 .legend-item { display: inline-flex; align-items: center; gap: 5px; }
 .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-/* --- запуск JS --- */
 
 .toggle { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); font-size: 13px; }
 
@@ -244,7 +239,6 @@ select, textarea, .search {
 .output .error { color: var(--error); }
 .output .status { color: var(--muted); }
 
-/* --- перетягування файлу --- */
 
 .drop-hint {
     position: absolute;
@@ -258,5 +252,4 @@ select, textarea, .search {
     pointer-events: none;
 }
 
-/* без лігатур, щоб <= і != виглядали так, як у коді */
 .code-view, .output, .tree .node text, .io-block textarea { font-variant-ligatures: none; }

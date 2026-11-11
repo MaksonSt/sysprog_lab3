@@ -1,4 +1,3 @@
-// Категорії вузлів AST і їхні кольори (легенда під деревом)
 export const CATEGORIES = [
     { name: "Структура", color: "#7b61d9", kinds: ["Program", "Using", "Function", "Params", "Param"] },
     { name: "Оголошення", color: "#2b9a66", kinds: ["DeclStmt", "VarDecl"] },

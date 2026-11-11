@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-// Порядок має збігатися з KIND_NAMES в ast.cpp
 enum class NodeKind {
     Program, Using, Function, Params, Param, DeclStmt, VarDecl, Block,
     If, While, For, Return, Break, Continue, ExprStmt, Empty, Cout, Cin, Endl,
@@ -14,8 +13,8 @@ enum class NodeKind {
 struct Node {
     NodeKind kind;
     int line = 0;
-    std::string name;   // ім'я змінної/функції, оператор або текст рядка
-    std::string type;   // тип для оголошень і функцій
+    std::string name;
+    std::string type;
     long long ival = 0;
     double dval = 0;
     bool prefix = false;

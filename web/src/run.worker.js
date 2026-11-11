@@ -1,5 +1,3 @@
-// Згенерований код пише через globalThis.$write / $error і читає cin з globalThis.$input
-// (див. RUNTIME у src/codegen_js.cpp).
 self.onmessage = ({ data: { code, input } }) => {
     self.$write = (text) => self.postMessage({ type: "out", text });
     self.$error = (text) => self.postMessage({ type: "error", text: text + "\n" });

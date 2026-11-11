@@ -292,7 +292,6 @@ Value Interpreter::evaluate(Node* e) {
     }
 }
 
-// Порівняння однакові для рядків, double і int
 template <typename T>
 bool compare(const std::string& op, const T& x, const T& y, bool& result) {
     if (op == "==")      result = x == y;

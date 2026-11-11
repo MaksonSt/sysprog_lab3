@@ -4,7 +4,6 @@ export default function SourceView({ name, source, activeLine, onLineClick }) {
     const listRef = useRef(null);
     const lines = (source || "вихідний код відсутній у файлі").replace(/\n$/, "").split("\n");
 
-    // при кліку по вузлу дерева прокручуємо код до відповідного рядка
     useEffect(() => {
         const row = listRef.current?.querySelector(".line.active");
         row?.scrollIntoView({ block: "nearest" });

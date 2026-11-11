@@ -12,7 +12,6 @@ fail=0
 ok()  { echo "  OK    $1"; pass=$((pass + 1)); }
 bad() { echo "  FAIL  $1"; fail=$((fail + 1)); }
 
-# вивід без \r, щоб Windows і Linux порівнювались однаково
 run() { "$@" 2>&1 | tr -d '\r'; }
 
 check() {

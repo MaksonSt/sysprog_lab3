@@ -1,5 +1,3 @@
-// Запуск згенерованого JavaScript в окремому Web Worker,
-// щоб нескінченний цикл не підвісив сторінку.
 const TIMEOUT_MS = 5000;
 
 export function runJs(code, input, { onOutput, onDone }) {

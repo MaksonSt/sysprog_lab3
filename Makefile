@@ -29,7 +29,6 @@ web: $(TARGET)
 test: $(TARGET)
 	bash tests/run_tests.sh
 
-# показати shift/reduce конфлікт dangling else без %prec
 conflict-demo: | $(BUILD)
 	sed -e 's/%prec LOWER_THAN_ELSE//' -e 's/^%expect 0//' src/parser.y > $(BUILD)/conflict_demo.y
 	-bison -Wcounterexamples -v -o $(BUILD)/conflict_demo.cpp $(BUILD)/conflict_demo.y

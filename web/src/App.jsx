@@ -4,7 +4,6 @@ import AstTree from "./components/AstTree.jsx";
 import JsPanel from "./components/JsPanel.jsx";
 import SourceView from "./components/SourceView.jsx";
 
-// Файл може бути пакетом з --bundle (код + AST + JS) або просто AST з --json
 function parseFile(name, text) {
     const data = JSON.parse(text);
     if (data.ast) return data;

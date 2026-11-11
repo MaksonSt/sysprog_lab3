@@ -1,5 +1,3 @@
-// Збирає web/src/examples.json: для кожного прикладу запускає minicpp --bundle
-// і додає вхідні дані з examples/<name>.in, якщо такий файл є.
 import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -25,7 +23,6 @@ const bundles = EXAMPLES.map((name) => {
     return bundle;
 });
 
-// один приклад на рядок, щоб diff у git був читабельним
 const json = "[\n" + bundles.map((b) => JSON.stringify(b)).join(",\n") + "\n]\n";
 writeFileSync(join(root, "web", "src", "examples.json"), json);
 console.log(`Записано ${bundles.length} прикладів у web/src/examples.json`);

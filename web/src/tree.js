@@ -1,5 +1,3 @@
-// Малювання AST через d3: горизонтальне дерево, згортання гілок, zoom/pan.
-// React лише створює <svg>, а все всередині нього керує d3.
 import * as d3 from "d3";
 import { colorOf } from "./categories.js";
 
@@ -109,7 +107,6 @@ export function createTree(svgElement, { onNodeClick, onHover }) {
         if (!box.width || !width || !height) return;
         const pad = 30;
         const scale = Math.max(0.6, Math.min(1.1, (width - pad * 2) / box.width, (height - pad * 2) / box.height));
-        // якщо дерево не влазить, притискаємо його до лівого/верхнього краю
         const tx = box.width * scale < width - pad * 2 ? (width - box.width * scale) / 2 - box.x * scale : pad - box.x * scale;
         const ty = box.height * scale < height - pad * 2 ? (height - box.height * scale) / 2 - box.y * scale : pad - box.y * scale;
         svg.transition().duration(ms).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));

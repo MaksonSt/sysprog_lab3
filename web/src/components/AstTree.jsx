@@ -14,7 +14,6 @@ export default function AstTree({ ast, activeLine, onNodeClick }) {
     const [found, setFound] = useState(0);
     const [tooltip, setTooltip] = useState(null);
 
-    // d3-дерево створюється один раз на весь час життя компонента
     useEffect(() => {
         const tree = createTree(svgRef.current, {
             onNodeClick: (data) => clickRef.current(data),
