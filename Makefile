@@ -1,6 +1,6 @@
 CXX      = g++
 CXXFLAGS = -std=c++17 -Wall -Isrc -Ibuild
-LDFLAGS  = -Wl,--stack,16777216
+LDFLAGS  = -Wl,--stack,16777216 -static
 BUILD    = build
 TARGET   = minicpp.exe
 
@@ -22,7 +22,6 @@ $(BUILD)/lexer.cpp: src/lexer.l $(BUILD)/parser.tab.hpp | $(BUILD)
 $(TARGET): $(GEN) $(SRCS) $(HDRS)
 	$(CXX) $(CXXFLAGS) -o $@ $(GEN) $(SRCS) $(LDFLAGS)
 
-# приклади для веб-візуалізації (web/src/examples.json)
 web: $(TARGET)
 	node web/scripts/build-examples.mjs
 

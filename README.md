@@ -10,35 +10,35 @@
 
 | Що | Як запустити |
 |---|---|
-| Лексичний аналіз (flex), таблиця токенів | `minicpp.exe file.cpp --tokens` |
-| Синтаксичний аналіз (bison, LALR(1)), помилки з номером рядка | `minicpp.exe file.cpp` |
-| Побудова AST і друк дерева в консоль | `minicpp.exe file.cpp --ast` |
-| Експорт AST у JSON | `minicpp.exe file.cpp --json ast.json` |
+| Лексичний аналіз (flex), таблиця токенів | `.\minicpp.exe file.cpp --tokens` |
+| Синтаксичний аналіз (bison, LALR(1)), помилки з номером рядка | `.\minicpp.exe file.cpp` |
+| Побудова AST і друк дерева в консоль | `.\minicpp.exe file.cpp --ast` |
+| Експорт AST у JSON | `.\minicpp.exe file.cpp --json ast.json` |
 | Семантичний аналіз: області видимості, типи, виклики | виконується завжди після розбору |
-| Інтерпретація (обчислення по AST) | `minicpp.exe file.cpp --run` |
-| Трансляція C++ → JavaScript | `minicpp.exe file.cpp --js out.js` |
-| Код + AST + JS одним файлом для веба | `minicpp.exe file.cpp --bundle out.json` |
+| Інтерпретація (обчислення по AST) | `.\minicpp.exe file.cpp --run` |
+| Трансляція C++ → JavaScript | `.\minicpp.exe file.cpp --js out.js` |
+| Код + AST + JS одним файлом для веба | `.\minicpp.exe file.cpp --bundle out.json` |
 | Візуалізація AST у браузері | `web/` (див. нижче) |
 
-Опції можна поєднувати, наприклад `minicpp.exe file.cpp --ast --run`.
+Опції можна поєднувати, наприклад `.\minicpp.exe file.cpp --ast --run`.
 
 ## Збірка
 
-Потрібні g++ (C++17), GNU Make, flex і bison. На Windows усе ставиться через [MSYS2](https://www.msys2.org/):
+Потрібні g++ (C++17), GNU Make, flex і bison. На Windows усе ставиться через [MSYS2](https://www.msys2.org/) (команду нижче виконувати в терміналі «MSYS2 UCRT64» з меню Пуск, а не в PowerShell):
 
 ```
 pacman -S mingw-w64-ucrt-x86_64-gcc make flex bison
 ```
 
 ```
-build.bat                 збірка
-build.bat test            тести (потрібен Node.js)
-build.bat web             оновити приклади для веба (web/src/examples.json)
-build.bat conflict-demo   показати конфлікт dangling else
-build.bat clean           видалити згенеровані файли
+.\build.bat                 збірка
+.\build.bat test            тести (потрібен Node.js)
+.\build.bat web             оновити приклади для веба (web/src/examples.json)
+.\build.bat conflict-demo   показати конфлікт dangling else
+.\build.bat clean           видалити згенеровані файли
 ```
 
-`build.bat` додає `C:\msys64\ucrt64\bin` і `C:\msys64\usr\bin` у PATH і викликає `make`. На Linux/macOS — просто `make`, `make test` і т.д.
+Команди наведено для PowerShell (у cmd `.\` можна прибрати). `build.bat` додає `C:\msys64\ucrt64\bin` і `C:\msys64\usr\bin` у PATH і викликає `make`. На Linux/macOS — просто `make`, `make test` і т.д.
 
 ## Візуалізація (React + Vite + d3.js)
 
@@ -119,7 +119,7 @@ assign_op   : "=" | "+=" | "-=" | "*=" | "/="
 | 7 | `* / %` | ліва |
 | 8 | `!`, унарні `- +` | права |
 
-Граматика збирається без конфліктів (`%expect 0`): 95 правил, 164 стани LALR-автомата (опис станів — `build/parser.output`). Конфлікт «dangling else» знімається через `%prec LOWER_THAN_ELSE`: `else` прив'язується до найближчого `if`. `build.bat conflict-demo` показує, що без `%prec` bison знаходить рівно 1 shift/reduce конфлікт.
+Граматика збирається без конфліктів (`%expect 0`): 95 правил, 164 стани LALR-автомата (опис станів — `build/parser.output`). Конфлікт «dangling else» знімається через `%prec LOWER_THAN_ELSE`: `else` прив'язується до найближчого `if`. `.\build.bat conflict-demo` показує, що без `%prec` bison знаходить рівно 1 shift/reduce конфлікт.
 
 ## Як це працює
 
@@ -153,7 +153,7 @@ assign_op   : "=" | "+=" | "-=" | "*=" | "/="
 
 ## Тести
 
-`build.bat test` запускає [tests/run_tests.sh](tests/run_tests.sh):
+`.\build.bat test` запускає [tests/run_tests.sh](tests/run_tests.sh):
 
 - для кожного правильного прикладу порівнює вивід інтерпретатора, згенерованого JavaScript (`node`) і тієї самої програми, скомпільованої справжнім `g++`;
 - перевіряє лексичну, синтаксичну, семантичну помилку і ділення на нуль під час виконання;
