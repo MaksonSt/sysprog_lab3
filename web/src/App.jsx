@@ -56,20 +56,10 @@ export default function App() {
                     <label className="field">
                         <span>Приклад</span>
                         <select value={selected} onChange={(e) => open(examples[Number(e.target.value)], e.target.value)}>
-                            <option value="" disabled>свій файл</option>
                             {examples.map((ex, i) => (
                                 <option key={ex.name} value={String(i)}>{ex.name}</option>
                             ))}
                         </select>
-                    </label>
-                    <label className="button secondary">
-                        Відкрити JSON
-                        <input
-                            type="file"
-                            accept=".json,application/json"
-                            hidden
-                            onChange={(e) => { openFile(e.target.files[0]); e.target.value = ""; }}
-                        />
                     </label>
                 </div>
             </header>

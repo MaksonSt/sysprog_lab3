@@ -67,7 +67,6 @@ export default function AstTree({ ast, activeLine, onNodeClick }) {
                     {query.trim() && <span className="muted">знайдено: {found}</span>}
                     <button className="button small" onClick={() => treeRef.current.setExpanded(true)}>Розгорнути</button>
                     <button className="button small" onClick={() => treeRef.current.setExpanded(false)}>Згорнути</button>
-                    <button className="button small" onClick={() => treeRef.current.fit()}>Вписати</button>
                 </div>
             </div>
 

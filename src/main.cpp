@@ -23,7 +23,6 @@ std::string tokenName(int token);
 
 static void printTokens() {
     printf("Рядок  Токен                Текст            Значення\n");
-    printf("------------------------------------------------------------\n");
     int count = 0;
     while (int tok = yylex()) {
         std::string value;
@@ -40,7 +39,6 @@ static void printTokens() {
         printf("%-6d %-20s %-16s %s\n", yylineno, tokenName(tok).c_str(), yytext, value.c_str());
         ++count;
     }
-    printf("------------------------------------------------------------\n");
     printf("Усього токенів: %d\n", count);
 }
 

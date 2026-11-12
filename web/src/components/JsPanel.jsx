@@ -59,10 +59,6 @@ export default function JsPanel({ js, defaultInput }) {
             <div className="panel-head">
                 <h2>JavaScript</h2>
                 <div className="actions">
-                    <label className="toggle">
-                        <input type="checkbox" checked={showRuntime} onChange={(e) => setShowRuntime(e.target.checked)} />
-                        показати $rt
-                    </label>
                     <button className="button small" onClick={copy}>{copied ? "Скопійовано" : "Копіювати"}</button>
                     <button className="button" onClick={run} disabled={running}>
                         {running ? "Виконується…" : "Запустити"}
